@@ -67,7 +67,8 @@ public class BookController {
 		List<Book> list = service.list(pager);
 		
 		model.addAttribute("list", list);
-		
+		System.out.println(pager.getPage());
+		System.out.println(pager.getNext());
 		return path + "list";
 	}
 	

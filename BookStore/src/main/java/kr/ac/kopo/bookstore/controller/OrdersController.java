@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -23,11 +24,22 @@ public class OrdersController {
 	@Autowired
 	OrdersService service;
 	
+	@GetMapping("/detail/{orderid}")
+	String detail(@PathVariable Long orderid, Model model) {
+		Orders item = service.item(orderid);
+		
+		model.addAttribute("item", item);
+		
+		return path + "detail";
+	}
+	
 	@GetMapping("/order")
 	String order(@SessionAttribute("member") Customer customer,
 			@SessionAttribute("cart") HashMap<Long, Integer> cart) {
 		
 		service.order(customer.getCustid(), cart);
+		
+		cart.clear();
 		
 		return "redirect:list";
 	}

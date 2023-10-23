@@ -37,4 +37,9 @@ import kr.ac.kopo.bookstore.pager.Pager;
 		sql.insert("orders.add_detail", detail);
 	}
 
+	@Override
+	public Orders item(Long orderid) {
+		return sql.selectOne("orders.item", orderid);
+	}
+
 }

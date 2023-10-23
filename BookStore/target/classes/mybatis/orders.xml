@@ -3,20 +3,21 @@
 
 <mapper namespace="orders">
 	<sql id="search">
-		SELECT * FROM orders 
+		select orders.*, customer.name, customer.phone from orders
+		join customer on orders.custid=customer.custid
 		
 		<where>
 			<if test="search == 1"><!-- if 태그의 값이 참이면 내용이 추가가 된다. -->
-				orderid=#{keyword}
+				orders.orderid=#{keyword}
 			</if>
 			
 			<if test="search == 2">
-				custid=#{custid}
+				orders.custid=#{custid}
 			</if>
 				
 		</where>
 		
-		ORDER BY orderid
+		ORDER BY orders.orderid
 		
 	</sql>
 	
@@ -50,4 +51,25 @@
 		INSERT INTO detail
 		VALUES (SEQ_DETAIL.nextval, #{bookid}, #{orderid}, #{amount})
 	</insert>
+	
+	<resultMap type="Orders" id="OrdersMap" autoMapping="true">
+		<id property="orderid" column="orderid"/>
+		
+		<collection property="details" column="oid" javaType="ArrayList" ofType="Detail" autoMapping="true">
+			<id property="code" column="code" />
+		</collection>
+	</resultMap><!-- 바로 넣을수 없는것들(데이터 여러개)은 resultMap을 통해... -->
+		
+	<select id="item" resultMap="OrdersMap">
+	select orders.*, detail.*, detail.orderid oid, book.bookname, book.publisher from orders
+	join detail on orders.orderid=detail.orderid
+	join book on detail.bookid=book.bookid
+	WHERE orders.orderid=#{orderid}	
+	</select>
 </mapper>
+
+
+
+
+
+

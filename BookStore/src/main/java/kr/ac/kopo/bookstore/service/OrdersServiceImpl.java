@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.ac.kopo.bookstore.dao.OrdersDao;
 import kr.ac.kopo.bookstore.model.Detail;
@@ -26,6 +27,7 @@ public class OrdersServiceImpl implements OrdersService {
 		return dao.list(pager);
 	}
 
+	@Transactional
 	@Override
 	public void order(String custid, HashMap<Long, Integer> cart) {
 		Orders item = new Orders();
@@ -42,6 +44,11 @@ public class OrdersServiceImpl implements OrdersService {
 			
 			dao.addDetail(detail);
 		}
+	}
+
+	@Override
+	public Orders item(Long orderid) {
+		return dao.item(orderid);
 	}
 
 }

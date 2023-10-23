@@ -15,4 +15,6 @@ public interface OrdersDao {
 	void add(Orders item);
 
 	void addDetail(Detail detail);
+
+	Orders item(Long orderid);
 }

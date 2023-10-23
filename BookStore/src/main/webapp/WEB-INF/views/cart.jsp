@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>까뜨라이더~</title>
 <jsp:include page="header.jsp"></jsp:include>
+<script src="resources/js/cart.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -37,10 +38,10 @@
 				</c:if>
 				
 				<c:forEach var="item" items="${sessionScope.cart}">
-					<tr>
+					<tr data-bookid="${item.key}">
 						<td>${item.key}</td>
-						<td>${item.value}</td>
-						<td><button>변경</button> <button>삭제</button></td>
+						<td><input type="number" value="${item.value}"></td>
+						<td><button class="btn btn-sm btn-warning cart_update">변경</button> <button class="btn btn-sm bnt-danger">삭제</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>			
